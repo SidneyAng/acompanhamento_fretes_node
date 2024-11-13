@@ -28,11 +28,13 @@ app.get('/', (req, res) => {
 app.post('/add', (req, res) => {
   const { cidade_origem, cidade_destino, placa_caminhao, data } = req.body;
   const query = 'INSERT INTO fretes (cidade_origem, cidade_destino, placa_caminhao, data) VALUES (?, ?, ?, ?)';
+  
   db.query(query, [cidade_origem, cidade_destino, placa_caminhao, data], (err) => {
     if (err) {
-      res.status(500).send(err);
+      console.error("Erro ao inserir no banco:", err);
+      res.status(500).send("Erro ao inserir no banco de dados.");
     } else {
-      res.redirect('/');
+      res.send("Frete adicionado com sucesso!");
     }
   });
 });
