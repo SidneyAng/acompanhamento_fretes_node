@@ -9,10 +9,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Configuração do banco de dados MySQL
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'Sidney',           // Substitua pelo seu usuário do banco de dados
-  password: '011726',   // Substitua pela sua senha do banco de dados
-  database: 'acompanhamento_fretes'
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'Sidney',
+  password: process.env.DB_PASSWORD || '011726',
+  database: process.env.DB_NAME || 'acompanhamento_fretes'
 });
 
 // Conectar ao banco de dados
@@ -67,7 +67,8 @@ app.get('/api/fretes/:id', (req, res) => {
   });
 });
 
-// Iniciar o servidor
-app.listen(3000, () => {
-  console.log('Servidor rodando na porta 3000');
+// Iniciar o servidor usando a porta do Heroku ou a porta 3000 para local
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
