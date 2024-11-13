@@ -7,13 +7,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Configuração do banco de dados MySQL
-const db = mysql.createConnection({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'Sidney',
-  password: process.env.DB_PASSWORD || '011726',
-  database: process.env.DB_NAME || 'acompanhamento_fretes'
-});
+// Configuração do banco de dados MySQL usando a URL de conexão do JawsDB
+const db = mysql.createConnection(process.env.JAWSDB_URL);
 
 // Conectar ao banco de dados
 db.connect((err) => {
@@ -67,7 +62,7 @@ app.get('/api/fretes/:id', (req, res) => {
   });
 });
 
-// Iniciar o servidor usando a porta do Heroku ou a porta 3000 para local
+// Iniciar o servidor na porta do Heroku ou na porta 3000 para ambiente local
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
